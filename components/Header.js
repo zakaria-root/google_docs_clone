@@ -12,7 +12,6 @@ export default function Header({ children }) {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-        {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/4.0.0/font/MaterialIcons-Regular.ttf" /> */}
         <link
           href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
           rel="stylesheet"
