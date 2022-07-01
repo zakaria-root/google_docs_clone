@@ -1,5 +1,4 @@
-import { Button } from "@material-tailwind/react"
-import { Icon } from "@material-tailwind/react"
+
 import Head from "next/head"
 import Script from 'next/script'
 import React from 'react'
@@ -19,6 +18,7 @@ export default function Header({ children }) {
       </Head>
 
       {/* nave bare  */}
+
       <div className="top-0 flex p-1 justify-between shadow-md items-center bg-white px-3">
         <div className="flex ">
           <button
@@ -39,7 +39,7 @@ export default function Header({ children }) {
         </div>
 
 
-        <div className="p-1 rounded-lg bg-slate-100 flex flex-auto mx-1 md:mx-20">
+        <div className="p-1 rounded-lg bg-slate-100 flex flex-auto mx-1 md:mx-16 lg:mx-48">
           <div
             class="rounded-full hover:bg-slate-200 px-3 py-2 cursor-pointer "
           >
@@ -47,6 +47,8 @@ export default function Header({ children }) {
           </div>
           <input type="text" placeholder="Rechercher" className="bg-transparent mx-3 focus:border-0 w-full text-slate-500 text-md outline-none" />
         </div>
+
+
         <div className="flex "></div>
         <div
           class="rounded-full hover:bg-slate-100  px-4  py-3 mr-2 cursor-pointer hidden md:block"
