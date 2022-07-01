@@ -65,7 +65,7 @@ const Home = () => {
       {/* body */}
       <section className="max-w-5xl mx-auto px-8 md:px-24 lg:px-5 py-3 mt-3">
         {/* header of the body */}
-        <div className="flex justify-between items-center" >
+        <div className="flex justify-between items-center mb-5" >
           <h1 className="text-md font-semibold">Les 30 jours précédents</h1>
 
           <div className="flex items-center">
