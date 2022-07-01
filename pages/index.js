@@ -2,9 +2,8 @@
 import Head from "next/head";
 import Image from "next/image";
 
-import Header from "../components/Header";
-import { useSession } from "next-auth/client"
-import Login from "../components/Login";
+
+
 import { useEffect } from "react";
 import { useAuth } from "../components/contexts/authContext";
 import { useRouter } from "next/router";
@@ -12,7 +11,7 @@ import { auth } from "../firebase";
 import Docs from '../components/Docs';
 
 const Home = () => {
-  const route = useRouter()
+  // const route = useRouter()
   const { user } = useAuth();
   const { signOut } = useAuth();
   console.log(user);
