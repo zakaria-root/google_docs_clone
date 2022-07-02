@@ -1,9 +1,15 @@
 
 import Head from "next/head"
+import { useRouter } from "next/router"
 import Script from 'next/script'
 import React from 'react'
+import { useAuth } from "./contexts/authContext";
 
 export default function Header({ children }) {
+  let route = useRouter();
+  const showNavBar = route.asPath == '/login' ? false : true;
+  let { user } = useAuth();
+  let image = user?.photoURL || 'https://c8.alamy.com/zooms/9/52c3ea49892f4e5789b31cadac8aa969/2gefnr1.jpg';
   return (
     <>
       {/* header of the appliation */}
@@ -19,7 +25,7 @@ export default function Header({ children }) {
 
       {/* nave bare  */}
 
-      <div className="top-0 flex p-1 justify-between shadow-md items-center bg-white px-3">
+      {showNavBar && <div className='top-0 flex p-1 justify-between shadow-md items-center bg-white px-3' >
         <div className="flex ">
           <button
             class="button button-text rounded-full hover:bg-gray-100 md:mr-2 my-1 px-4 py-1 hidden md:block "
@@ -59,14 +65,15 @@ export default function Header({ children }) {
           class="rounded-full hover:bg-gray-200 px-1  my-3 cursor-pointer"
         >
           <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
+            // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
+            src={image}
             alt="profile image"
             width="37px"
             className="rounded-full h-9 object-cover"
           />
         </div>
 
-      </div>
+      </div>}
 
       {children}
       <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
