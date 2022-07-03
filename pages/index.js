@@ -46,7 +46,7 @@ const Home = () => {
           .collection('userDocs')
           .doc(user?.email)
           .collection('docs')
-          .orderBy("timstamp",'desc')
+          .orderBy("timstamp", 'desc')
           .onSnapshot((querySnapshot) => {
             let docsSnapshot = []
             querySnapshot.forEach((doc) => {
