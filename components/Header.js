@@ -9,7 +9,7 @@ export default function Header({ children }) {
   let route = useRouter();
   const showNavBar = route.asPath == '/login' ? false : true;
   let { user } = useAuth();
-  let image = user?.photoURL || 'https://c8.alamy.com/zooms/9/52c3ea49892f4e5789b31cadac8aa969/2gefnr1.jpg';
+  const image = user.photoURL
   return (
     <>
       {/* header of the appliation */}
