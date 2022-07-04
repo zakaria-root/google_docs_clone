@@ -1,12 +1,17 @@
+import { useRouter } from 'next/router'
+
 import React from 'react'
 
-function Docs({ docName, author, createdAt }) {
+function Docs({ docName, author, createdAt, docId }) {
+  const route = useRouter();
   return (
-    < div className='hover:bg-blue-100 rounded-full'>
-      <div className="flex items-center justify-between px-5 py-1 mt-3  rounded-full">
-        <div className="flex items-center ">
+    < div
+      onClick={() => { route.push(`/${docId}`) }}
+      className='hover:bg-blue-100 rounded-full'>
+      <div className="flex items-center justify-between px-5 py-1 mt-3  rounded-full cursor-pointer">
+        <div className="flex  items-center ">
           <i class="fa-solid fa-file-lines text-3xl mr-5 lg:mr-10 text-blue-500"></i>
-          <h1 className="text-gray-700 mr-5 lg:mr-10">{docName}</h1>
+          <h1 className="text-gray-700 mr-5 lg:mr-10 w-10 md:w-20">{docName}</h1>
           <i class="fa-solid fa-user-group text-gray-600 "></i>
         </div>
 
@@ -22,6 +27,7 @@ function Docs({ docName, author, createdAt }) {
         </button>
       </div>
       <hr className="ml-14 mr-10" />
+
     </div>
   )
 }

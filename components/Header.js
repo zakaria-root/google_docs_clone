@@ -1,13 +1,16 @@
 
 import Head from "next/head"
+import Image from "next/image";
 import { useRouter } from "next/router"
 import Script from 'next/script'
 import React from 'react'
 import { useAuth } from "./contexts/authContext";
+import NavDoc from './NavDoc'
 
 export default function Header({ children }) {
   let route = useRouter();
-  const showNavBar = route.asPath == '/login' ? false : true;
+  const showNavBar = route.asPath == '/' ? true : false;
+
   let { user } = useAuth();
   const image = user.photoURL
   return (
@@ -64,20 +67,22 @@ export default function Header({ children }) {
         <div
           class="rounded-full hover:bg-gray-200 px-1  my-3 cursor-pointer"
         >
-          <img
+
+          <Image
             // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
             src={image}
             alt="profile image"
-            width="37px"
+            width={37}
+            height={37}
             className="rounded-full h-9 object-cover"
           />
         </div>
 
       </div>}
 
+
       {children}
-      <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
-      <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/script-name.js"></script>
+
     </>
   )
 }
