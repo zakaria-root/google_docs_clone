@@ -13,7 +13,7 @@ import Script from "next/script";
 import firebase from "firebase"
 
 const Home = () => {
-  // const route = useRouter()
+  const route = useRouter()
   const [input, setInput] = useState('')
   const [docs, setDocs] = useState([])
   let [showModal, setShowmodal] = useState(false);
@@ -83,10 +83,10 @@ const Home = () => {
               <div class="bg-gray-50 px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse place-content-center">
                 <button
                   onClick={() => createDosHandler()}
-                  class="px-8 button button-blue" data-ripple-light="true">
+                  class="px-8 button button-blue font-semibold" data-ripple-light="true">
                   Cree
                 </button>
-                <button onClick={() => setShowmodal(false)} class="button button-blue mr-4" data-ripple-light="true">
+                <button onClick={() => setShowmodal(false)} class="button button-white shadow-md mr-4 text-blue-500 font-semibold" data-ripple-light="true">
                   Fermer
                 </button>
 
@@ -103,13 +103,7 @@ const Home = () => {
   // if (user) {
   return (
     <>
-      <Head>
-        <link
-          href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
-          rel="stylesheet"
-        />
-        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
-      </Head>
+      
       {/* banner */}
       {modal()}
       <section className="bg-gray-100 px-8 md:px-24 py-3">
@@ -188,8 +182,12 @@ const Home = () => {
         </div>
         {/* content of the body */}
         {docs.map((doc) => {
-          console.log(doc);
-          return <Docs key={doc.id} docName={doc.data.docName} author={user.displayName} createdAt={doc.data.timstamp} />
+          return <Docs
+            key={doc.id}
+            docId={doc.id}
+            docName={doc.data.docName}
+            author={user.displayName}
+            createdAt={doc.data.timstamp} />
         })}
 
       </section >
