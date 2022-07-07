@@ -2,11 +2,17 @@ import { useRouter } from 'next/router'
 
 import React from 'react'
 
-function Docs({ docName, author, createdAt, docId }) {
+function Docs({ docName, author, createdAt, docId, partager }) {
   const route = useRouter();
   return (
     < div
-      onClick={() => { route.push(`/${docId}`) }}
+      onClick={() => {
+        if (partager) {
+          route.push(`partager/${docId}`)
+        } else {
+          route.push(`/${docId}`)
+        }
+      }}
       className='hover:bg-blue-100 rounded-full'>
       <div className="flex items-center justify-between px-5 py-1 mt-3  rounded-full cursor-pointer">
         <div className="flex  items-center ">
@@ -16,7 +22,7 @@ function Docs({ docName, author, createdAt, docId }) {
         </div>
 
         <div className="flex items-center ">
-          <h1 className="px-10 lg:px-20 text-gray-600">{author}</h1>
+          <h1 className="px-10 lg:px-20 text-gray-600">{author} {partager && "et d'autre"}</h1>
           <h1 className="px-10 lg:px-20 text-gray-500 tracking-widest text-sm">{createdAt?.toDate().toLocaleDateString()}</h1>
         </div>
         <button

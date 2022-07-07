@@ -2,13 +2,49 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import React from 'react'
+import React, { useState } from 'react'
+import { db } from '../firebase'
+import { useAuth } from './contexts/authContext'
+import firebase from 'firebase'
 
-
-function NavDoc({ userImage, docName }) {
+function NavDoc({ userImage, docName, docId }) {
   const image = userImage || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80'
   const route = useRouter()
+  let { user } = useAuth();
+  const [doc, setDoc] = useState(null)
+
+  const partager = () => {
+    if (user) {
+      db
+        .collection('userDocs')
+        .doc(user?.email)
+        .collection('docs')
+        .doc(docId)
+        .get()
+        .then((Sdoc) => {
+          console.log(Sdoc);
+          db
+            .collection('userDocsPartager')
+            .add({
+              docName: Sdoc.data().docName,
+              timstamp: firebase.firestore.FieldValue.serverTimestamp(),
+              editorState: Sdoc.data().editorState,
+              emails: [user?.email, 'elmourtazakzakaria@gmail.com']
+            }).then((docRef) => {
+              setShowmodal(false);
+              setInput('');
+              console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+            });
+        })
+
+    }
+
+  }
   return (<>
+
     <div className='top-0 flex justify-between shadow-md items-center bg-white px-3' >
 
       <div className="flex ">
@@ -37,6 +73,7 @@ function NavDoc({ userImage, docName }) {
       </div>
       <div className="flex items-center">
         <button
+          onClick={() => partager()}
           class="button button-blue mt-1 my-3 mr-3 font-bold text-md "
           data-ripple-light="true">
           partager

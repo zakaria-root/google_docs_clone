@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react'
-import { useAuth } from '../components/contexts/authContext';
-import NavDoc from '../components/NavDoc'
-import { db } from '../firebase';
+import { useAuth } from '../../components/contexts/authContext';
+import NavDoc from '../../components/NavDoc'
+import { db } from '../../firebase';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import dynamic from 'next/dynamic';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import Head from 'next/head';
 
 const Editor = dynamic(() => import("react-draft-wysiwyg").then(module => module.Editor), {
   ssr: false,
@@ -17,19 +16,17 @@ function Doc() {
 
   const { user } = useAuth()
   const route = useRouter()
-  const docId = route.asPath.substring(1)
+  const docId = route.asPath.substring(1 + "partager".length)
 
   const [doc, setDoc] = useState(null)
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  
+
   //todo: change the data in editor state
   const onEditorStateChange = async (e) => {
 
     setEditorState(e);
     await db
-      .collection('userDocs')
-      .doc(user?.email)
-      .collection('docs')
+      .collection('userDocsPartager')
       .doc(docId)
       .set({
         editorState: convertToRaw(editorState.getCurrentContent())
@@ -46,9 +43,7 @@ function Doc() {
     function getDoc() {
       let state = null
       db
-        .collection('userDocs')
-        .doc(user?.email)
-        .collection('docs')
+        .collection('userDocsPartager')
         .doc(docId)
         .get()
         .then((Sdoc) => {
@@ -57,7 +52,6 @@ function Doc() {
           })
 
           if (Sdoc?.data()?.editorState) {
-
             state = Sdoc?.data()?.editorState
             setEditorState(EditorState.createWithContent(convertFromRaw(state)))
           }
@@ -67,12 +61,11 @@ function Doc() {
 
     return () => getDoc()
   }, [])
+
   function getDoc() {
     let state = null
     db
-      .collection('userDocs')
-      .doc(user?.email)
-      .collection('docs')
+      .collection('userDocsPartager')
       .doc(docId)
       .get()
       .then((Sdoc) => {
@@ -105,7 +98,7 @@ function Doc() {
   return (
     <div>
 
-    
+
 
       <NavDoc userImage={user?.photoURL} docName={doc?.data?.docName} docId={docId} />
       <div className="min-h-screen bg-gray-100 mb-3" >

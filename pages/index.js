@@ -16,6 +16,7 @@ const Home = () => {
   const route = useRouter()
   const [input, setInput] = useState('')
   const [docs, setDocs] = useState([])
+  const [docPartager, setdocPartager] = useState([])
   let [showModal, setShowmodal] = useState(false);
   const { user } = useAuth();
   const { signOut } = useAuth();
@@ -55,7 +56,20 @@ const Home = () => {
               }
             });
             setDocs(docsSnapshot);
-            console.log(docs);
+            // console.log(docs);
+          })
+        db
+          .collection('userDocsPartager')
+          .orderBy("timstamp", 'desc')
+          .onSnapshot((querySnapshot) => {
+            let docsSnapshot = []
+            querySnapshot.forEach((doc) => {
+              if (doc) {
+                docsSnapshot.push({ id: doc.id, data: doc.data() })
+              }
+            });
+            setdocPartager(docsSnapshot);
+            // console.log(docs);
           })
       }
     }
@@ -103,7 +117,7 @@ const Home = () => {
   // if (user) {
   return (
     <>
-      
+
       {/* banner */}
       {modal()}
       <section className="bg-gray-100 px-8 md:px-24 py-3">
@@ -142,9 +156,7 @@ const Home = () => {
           <h2 className="text-sm font-semibold p-3">Vide</h2>
         </div>
 
-        {/* <button onClick={signOut}>
-          logout...
-        </button> */}
+
       </section >
 
       {/* body */}
@@ -186,10 +198,21 @@ const Home = () => {
             key={doc.id}
             docId={doc.id}
             docName={doc.data.docName}
-            author={user.displayName}
-            createdAt={doc.data.timstamp} />
+            author={user?.displayName}
+            createdAt={doc.data.timstamp}
+            partager={false}
+          />
         })}
-
+        {docPartager.map((doc) => {
+          return <Docs
+            key={doc.id}
+            docId={doc.id}
+            docName={doc.data.docName}
+            author={user?.displayName}
+            createdAt={doc.data.timstamp}
+            partager={true}
+          />
+        })}
       </section >
 
 
@@ -199,7 +222,7 @@ const Home = () => {
     </>
   )
   // } else {
-  // route.push('/login')
+  //   route.push('/login')
   // }
 };
 
