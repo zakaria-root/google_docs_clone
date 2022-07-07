@@ -100,7 +100,7 @@ function Doc() {
 
 
 
-      <NavDoc userImage={user?.photoURL} docName={doc?.data?.docName} docId={docId} />
+      <NavDoc userImage={user?.photoURL} docName={doc?.data?.docName} docId={docId} owner={doc?.data?.owner} />
       <div className="min-h-screen bg-gray-100 mb-3" >
         <Editor
           editorState={editorState}

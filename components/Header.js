@@ -86,15 +86,15 @@ export default function Header({ children }) {
   return (
     <>
       {/* header of the appliation */}
-        <Head>
-          <title>Create Next App</title>
-          <link rel="icon" href="/favicon.ico" />
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-          <link
-            href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
-            rel="stylesheet"
-          />
-        </Head>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+        <link
+          href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
+          rel="stylesheet"
+        />
+      </Head>
 
       {/* profile Modal */}
       {modalProfile()}
@@ -111,6 +111,7 @@ export default function Header({ children }) {
           <button
             class="button button-text button-dark mr-3 p-0"
             data-ripple-light="true"
+            onClick={() => route.push('/')}
           >
             <img src="https://cdn-icons-png.flaticon.com/512/5968/5968517.png" alt="docs icon" width="40px" className="object-cover h-11" />
           </button>

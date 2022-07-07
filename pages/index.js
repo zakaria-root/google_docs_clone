@@ -196,22 +196,27 @@ const Home = () => {
         {docs.map((doc) => {
           return <Docs
             key={doc.id}
-            docId={doc.id}
-            docName={doc.data.docName}
+            docId={doc?.id}
+            docName={doc?.data?.docName}
             author={user?.displayName}
-            createdAt={doc.data.timstamp}
+            createdAt={doc?.data?.timstamp}
             partager={false}
           />
         })}
         {docPartager.map((doc) => {
-          return <Docs
-            key={doc.id}
-            docId={doc.id}
-            docName={doc.data.docName}
-            author={user?.displayName}
-            createdAt={doc.data.timstamp}
-            partager={true}
-          />
+          const exist = doc?.data?.emails.filter(email => (user?.email == email))
+          console.log(exist)
+          if (exist.length > 0) {
+            return <Docs
+              key={doc.id}
+              docId={doc?.id}
+              docName={doc?.data?.docName}
+              author={user?.displayName}
+              createdAt={doc?.data?.timstamp}
+              partager={true}
+            />
+          }
+
         })}
       </section >
 
