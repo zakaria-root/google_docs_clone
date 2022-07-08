@@ -21,6 +21,7 @@ const Home = () => {
   const { user } = useAuth();
   const { signOut } = useAuth();
 
+
   // TODO : create docs for pirtucaler user 
   const createDosHandler = () => {
     if (user) {
@@ -152,8 +153,37 @@ const Home = () => {
               />
 
             </div>
+            <h2 className="text-sm font-semibold p-3">Vide</h2>
           </button>
-          <h2 className="text-sm font-semibold p-3">Vide</h2>
+          {docs.map((doc, index) => {
+
+            if (index <= 4) {
+              return <button
+                key={doc.id}
+                onClick={() => {
+                  route.push(`/${doc.id}`)
+                }}
+                type="button" >
+                <div className="relative  mx-5 w-32 h-44 bg-white border-gray-200 border-2  hover:border-blue-400 cursor-pointer rounded-md">
+
+                  <Image
+
+                    src='https://www.smartcat.com/_vue_builder/smartcat_en_integrations_1630675948149_1630676770435_1-2.png'
+                    layout="fill"
+                    // width="80"
+                    // height="100"
+                    className="rounded-md object-cover"
+                  />
+
+
+                </div>
+                <h2 className="text-sm font-semibold p-3">{doc?.data?.docName}</h2>
+
+              </button>
+            }
+
+          })}
+
         </div>
 
 
@@ -193,6 +223,8 @@ const Home = () => {
           </div>
         </div>
         {/* content of the body */}
+
+        {/* get all docs */}
         {docs.map((doc) => {
           return <Docs
             key={doc.id}
@@ -203,6 +235,8 @@ const Home = () => {
             partager={false}
           />
         })}
+
+        {/* get all docs shaded */}
         {docPartager.map((doc) => {
           const exist = doc?.data?.emails.filter(email => (user?.email == email))
           console.log(exist)

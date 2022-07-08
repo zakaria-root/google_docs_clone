@@ -7,6 +7,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import dynamic from 'next/dynamic';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import Head from 'next/head';
+import * as htmlToImage from "html-to-image";
+import Document from 'next/document';
 
 const Editor = dynamic(() => import("react-draft-wysiwyg").then(module => module.Editor), {
   ssr: false,
@@ -21,7 +23,40 @@ function Doc() {
 
   const [doc, setDoc] = useState(null)
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
+
+  //todo : take a screen to the image 
   
+  // setInterval(() => {
+  //   function screenGenerator() {
+  //     var node = document.querySelector('#doc')
+  //     htmlToImage
+  //       .toPng(node)
+  //       .then(function (dataUrl) {
+  //         // var img = new Image();
+  //         // img.src = dataUrl;
+  //         console.log(dataUrl);
+  //         db
+  //           .collection('userDocs')
+  //           .doc(user?.email)
+  //           .collection('docs')
+  //           .doc(docId)
+  //           .set({
+  //             image: dataUrl
+  //           },
+  //             {
+  //               merge: true
+  //             }
+  //           )
+  //       })
+  //       .catch(function (error) {
+  //         console.error("oops, something went wrong!", error);
+  //       });
+  //   }
+  //   screenGenerator()
+  // }, 1000);
+
+
+
   //todo: change the data in editor state
   const onEditorStateChange = async (e) => {
 
@@ -32,14 +67,13 @@ function Doc() {
       .collection('docs')
       .doc(docId)
       .set({
-        editorState: convertToRaw(editorState.getCurrentContent())
+        editorState: convertToRaw(editorState.getCurrentContent()),
       },
         {
           merge: true
         }
       )
   }
-
 
   // todo: get the doc with the uid 
   useEffect(() => {
@@ -105,10 +139,10 @@ function Doc() {
   return (
     <div>
 
-    
+
 
       <NavDoc userImage={user?.photoURL} docName={doc?.data?.docName} docId={docId} />
-      <div className="min-h-screen bg-gray-100 mb-3" >
+      <div id="doc" className="min-h-screen bg-gray-100 mb-3" >
         <Editor
           editorState={editorState}
           toolbarClassName="flex sticky top-0 z-50 !justify-center mx-auto"

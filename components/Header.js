@@ -13,7 +13,8 @@ export default function Header({ children }) {
   let [showModalProfile, setShowmodalProfile] = useState(false);
   let { user, signOut } = useAuth();
   const image = user?.photoURL || "https://www.vertmondeong.com/image/commentaire/personne7.png"
-
+  const [inputSearch, setInputSearch] = useState('')
+  
   //todo : modal de profile
   let modalProfile = () => {
 
@@ -127,7 +128,7 @@ export default function Header({ children }) {
           >
             <i class="fa-solid fa-magnifying-glass text-md"></i>
           </div>
-          <input type="text" placeholder="Rechercher" className="bg-transparent mx-3 focus:border-0 w-full text-gray-500 text-md outline-none" />
+          <input onChange={(e) => setInputSearch(e.target.value)} type="text" placeholder="Rechercher" className="bg-transparent mx-3 focus:border-0 w-full text-gray-500 text-md outline-none" />
         </div>
 
 
