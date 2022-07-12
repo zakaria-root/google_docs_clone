@@ -248,6 +248,7 @@ const Home = () => {
               author={user?.displayName}
               createdAt={doc?.data?.timstamp}
               partager={true}
+              owner={doc?.data?.owner}
             />
           }
 

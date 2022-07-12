@@ -4,12 +4,18 @@ import React, { useState } from 'react'
 import { db } from '../firebase';
 import { useAuth } from './contexts/authContext';
 
-function Docs({ docName, author, createdAt, docId, partager }) {
+function Docs({ docName, author, createdAt, docId, partager, owner }) {
   const route = useRouter();
   const { user } = useAuth();
   let [showDeleteModal, setShowDeleteModal] = useState(false);
   let [showUpdateModal, setShowUpdateModal] = useState(false);
   const [input, setInput] = useState('')
+  let disabled = false;
+  if (owner) {
+    if (owner == user.email) {
+      disabled = true;
+    }
+  }
 
   //todo : update doc fnction
   const updateDoc = () => {
@@ -187,19 +193,35 @@ function Docs({ docName, author, createdAt, docId, partager }) {
           <h1 className="px-10 lg:px-20 text-gray-500 tracking-widest text-sm">{createdAt?.toDate().toLocaleDateString()}</h1>
         </div>
         <div className="">
-          <button
+          {!disabled ? <button
             onClick={() => setShowUpdateModal(true)}
             className="button button-text rounded-full  text-gray-500 hover:text-blue-500 hover:bg-gray-300 my-1 px-3 py-1 p-3 text-lg"
             data-ripple-dark="true"
           >
             <i class="fa-solid fa-file-pen"></i>
-          </button>
-          <button
+          </button> :
+            <button
+
+              className="button button-text rounded-full  text-gray-500 hover:text-blue-500 hover:bg-gray-300 my-1 px-3 py-1 p-3 text-lg"
+              data-ripple-dark="true"
+            >
+              <i class="fa-solid fa-minus"></i>
+            </button>}
+
+          {!disabled ? <button
             onClick={() => setShowDeleteModal(true)}
             className="button button-text rounded-full text-gray-500 hover:text-red-500 hover:bg-gray-300 my-1 px-3 py-1 p-3 text-lg"
             data-ripple-dark="true"
           >
-            <i class="fa-solid fa-trash"></i>  </button>
+            <i class="fa-solid fa-trash"></i>  </button> :
+            <button
+
+              className="button button-text rounded-full text-gray-500 hover:text-red-500 hover:bg-gray-300 my-1 px-3 py-1 p-3 text-lg"
+              data-ripple-dark="true"
+            >
+              <i class="fa-solid fa-minus"></i></button>
+          }
+
         </div>
 
       </div>
