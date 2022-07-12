@@ -12,14 +12,22 @@ import Docs from '../components/Docs';
 import Script from "next/script";
 import firebase from "firebase"
 
+
 const Home = () => {
   const route = useRouter()
   const [input, setInput] = useState('')
   const [docs, setDocs] = useState([])
   const [docPartager, setdocPartager] = useState([])
   let [showModal, setShowmodal] = useState(false);
+  const [displayDocs, setDisplayDocs] = useState('all')
+  const [docsNumber, setdocsNumber] = useState(4)
+  const [order, setOrder] = useState(false);
   const { user } = useAuth();
   const { signOut } = useAuth();
+  // console.log(order);
+
+  let selectClass = (displayDocs == 'all') ? "text-sm h-6 w-14 hover:bg-gray-300 mr-5" : "text-sm text-center h-6 w-30 hover:bg-gray-300 mr-5"
+
 
 
   // TODO : create docs for pirtucaler user 
@@ -44,34 +52,68 @@ const Home = () => {
   useEffect(() => {
     function getAllDocs() {
       if (user) {
-        db
-          .collection('userDocs')
-          .doc(user?.email)
-          .collection('docs')
-          .orderBy("timstamp", 'desc')
-          .onSnapshot((querySnapshot) => {
-            let docsSnapshot = []
-            querySnapshot.forEach((doc) => {
-              if (doc) {
-                docsSnapshot.push({ id: doc.id, data: doc.data() })
-              }
-            });
-            setDocs(docsSnapshot);
-            // console.log(docs);
-          })
-        db
-          .collection('userDocsPartager')
-          .orderBy("timstamp", 'desc')
-          .onSnapshot((querySnapshot) => {
-            let docsSnapshot = []
-            querySnapshot.forEach((doc) => {
-              if (doc) {
-                docsSnapshot.push({ id: doc.id, data: doc.data() })
-              }
-            });
-            setdocPartager(docsSnapshot);
-            // console.log(docs);
-          })
+        if (!order) {
+          db
+            .collection('userDocs')
+            .doc(user?.email)
+            .collection('docs')
+            .orderBy("timstamp", 'desc')
+            .onSnapshot((querySnapshot) => {
+              let docsSnapshot = []
+              querySnapshot.forEach((doc) => {
+                if (doc) {
+                  docsSnapshot.push({ id: doc.id, data: doc.data() })
+                }
+              });
+              setDocs(docsSnapshot);
+              // console.log(docs);
+            })
+          db
+            .collection('userDocsPartager')
+            .orderBy("timstamp", 'desc')
+            .onSnapshot((querySnapshot) => {
+              let docsSnapshot = []
+              querySnapshot.forEach((doc) => {
+                if (doc) {
+                  docsSnapshot.push({ id: doc.id, data: doc.data() })
+                }
+              });
+              setdocPartager(docsSnapshot);
+              // console.log(docs);
+            })
+        } else {
+          db
+            .collection('userDocs')
+            .doc(user?.email)
+            .collection('docs')
+            .orderBy("docName",'asc')
+            .onSnapshot((querySnapshot) => {
+              let docsSnapshot = []
+              querySnapshot.forEach((doc) => {
+                if (doc) {
+                  docsSnapshot.push({ id: doc.id, data: doc.data() })
+                }
+              });
+              setDocs(docsSnapshot);
+              // console.log(docs);
+            })
+          db
+            .collection('userDocsPartager')
+            .orderBy('docName', 'asc')
+            .onSnapshot((querySnapshot) => {
+              let docsSnapshot = []
+              querySnapshot.forEach((doc) => {
+                if (doc) {
+                  docsSnapshot.push({ id: doc.id, data: doc.data() })
+                }
+              });
+              setdocPartager(docsSnapshot);
+              // console.log(docs);
+            })
+        }
+
+
+
       }
     }
 
@@ -129,10 +171,19 @@ const Home = () => {
             </h2>
             <div className="">
               <button
+                onClick={() => {
+                  if (docsNumber == 4) {
+                    setdocsNumber(docs?.length)
+                  } else {
+                    setdocsNumber(4)
+                  }
+                }}
                 className=" button text-gray-600 rounded-md hover:bg-gray-300 md:mr-2 my-1 px-4 py-1 p-3 text-lg"
                 data-ripple-dark="true"
               >
-                <span className="capitalize text-sm">galrie de modeles</span>
+                <span
+
+                  className="capitalize text-sm">galrie de modeles</span>
                 <i className="fa-solid fa-sort ml-2 text-sm"></i>
               </button>
               <button
@@ -157,7 +208,7 @@ const Home = () => {
           </button>
           {docs.map((doc, index) => {
 
-            if (index <= 4) {
+            if (index <= docsNumber) {
               return <button
                 key={doc.id}
                 onClick={() => {
@@ -196,10 +247,16 @@ const Home = () => {
           <h1 className="text-md font-semibold">Les 30 jours précédents</h1>
 
           <div className="flex items-center">
-            <select name="filterDocs" id="docs-select" className="text-sm h-6 w-14 hover:bg-gray-300 mr-5">
-              <option value="">Tout</option>
-              <option value="dog">Cree Par Moi</option>
-              <option value="cat">Non Cree par Moi</option>
+            <select name="filterDocs" id="docs-select" className={selectClass}>
+              <option
+                onClick={() => setDisplayDocs('all')}
+                value="">Tout</option>
+              <option
+                onClick={() => setDisplayDocs('moi')}
+                value="dog">Cree Par Moi</option>
+              <option
+                onClick={() => setDisplayDocs('partager')}
+                value="cat">Non Cree par Moi</option>
             </select>
             < h1 className="text-sm font-semibold mr-5">Dernière ouverture par moi</h1>
             <button
@@ -209,6 +266,7 @@ const Home = () => {
               <i class="fa-solid fa-qrcode "></i>
             </button>
             <button
+              onClick={() => setOrder(!order)}
               className=" button text-gray-600 rounded-full hover:bg-gray-300 md:mr-2 my-1 px-3 py-1 p-3 text-lg"
               data-ripple-dark="true"
             >
@@ -225,34 +283,39 @@ const Home = () => {
         {/* content of the body */}
 
         {/* get all docs */}
-        {docs.map((doc) => {
-          return <Docs
-            key={doc.id}
-            docId={doc?.id}
-            docName={doc?.data?.docName}
-            author={user?.displayName}
-            createdAt={doc?.data?.timstamp}
-            partager={false}
-          />
-        })}
 
-        {/* get all docs shaded */}
-        {docPartager.map((doc) => {
-          const exist = doc?.data?.emails.filter(email => (user?.email == email))
-          console.log(exist)
-          if (exist.length > 0) {
+        {
+          ((displayDocs == 'moi' || displayDocs == 'all') && docsNumber == 4) &&
+          docs.map((doc) => {
             return <Docs
               key={doc.id}
               docId={doc?.id}
               docName={doc?.data?.docName}
               author={user?.displayName}
               createdAt={doc?.data?.timstamp}
-              partager={true}
-              owner={doc?.data?.owner}
+              partager={false}
             />
-          }
+          })
+        }
 
-        })}
+        {/* get all docs shaded */}
+        {
+          ((displayDocs == 'partager' || displayDocs == 'all') && docsNumber == 4) &&
+          docPartager.map((doc) => {
+            const exist = doc?.data?.emails.filter(email => (user?.email == email))
+            console.log(exist)
+            if (exist.length > 0) {
+              return <Docs
+                key={doc.id}
+                docId={doc?.id}
+                docName={doc?.data?.docName}
+                author={user?.displayName}
+                createdAt={doc?.data?.timstamp}
+                partager={true}
+                owner={doc?.data?.owner}
+              />
+            }
+          })}
       </section >
 
 
