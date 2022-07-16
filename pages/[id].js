@@ -24,38 +24,6 @@ function Doc() {
   const [doc, setDoc] = useState(null)
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
-  //todo : take a screen to the image 
-  
-  // setInterval(() => {
-  //   function screenGenerator() {
-  //     var node = document.querySelector('#doc')
-  //     htmlToImage
-  //       .toPng(node)
-  //       .then(function (dataUrl) {
-  //         // var img = new Image();
-  //         // img.src = dataUrl;
-  //         console.log(dataUrl);
-  //         db
-  //           .collection('userDocs')
-  //           .doc(user?.email)
-  //           .collection('docs')
-  //           .doc(docId)
-  //           .set({
-  //             image: dataUrl
-  //           },
-  //             {
-  //               merge: true
-  //             }
-  //           )
-  //       })
-  //       .catch(function (error) {
-  //         console.error("oops, something went wrong!", error);
-  //       });
-  //   }
-  //   screenGenerator()
-  // }, 1000);
-
-
 
   //todo: change the data in editor state
   const onEditorStateChange = async (e) => {

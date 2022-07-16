@@ -175,9 +175,9 @@ const Home = () => {
     <>
       {/* banner */}
       {modal()}
-      <section className="bg-gray-100 px-8 md:px-24 py-3">
-        <div className="max-w-5xl mx-auto ">
-          <div className="flex items-center justify-between">
+      <section className="bg-gray-100 px-8 md:px-24 py-3 ">
+        <div className="max-w-5xl mx-auto  ">
+          <div className="flex items-center justify-between ">
             <h2 className="capitalize text-lg text-gray-600 p-3">
               Créer un document
             </h2>
@@ -205,7 +205,7 @@ const Home = () => {
             </div>
           </div>
           <button type="button" onClick={() => setShowmodal(true)}>
-            <div className="relative w-32 h-44 border-gray-200 border-2  hover:border-blue-400 cursor-pointer rounded-md  hover:scale-105  ease-in duration-150 hover:opacity-80">
+            <div className="relative mt-1 mx-5 w-32 h-44 border-gray-200 border-2  hover:border-blue-400 cursor-pointer rounded-md  hover:scale-105  ease-in duration-150 hover:opacity-80">
               <Image
                 src="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png"
                 layout="fill"
@@ -250,7 +250,7 @@ const Home = () => {
                   }}
                   type="button"
                 >
-                  <div className="relative  mx-5 w-32 h-44 bg-white border-gray-200 border-2  hover:border-blue-400 cursor-pointer rounded-md hover:scale-105  ease-in duration-150 hover:opacity-80">
+                  <div className="relative   mx-5 w-32 h-44 bg-white border-gray-200 border-2  hover:border-blue-400 cursor-pointer rounded-md hover:scale-105  ease-in duration-150 hover:opacity-80">
                     <Image
                       src="https://www.smartcat.com/_vue_builder/smartcat_en_integrations_1630675948149_1630676770435_1-2.png"
                       layout="fill"
@@ -277,7 +277,7 @@ const Home = () => {
 
           <div className="flex items-center">
             <select name="filterDocs" id="docs-select" className={selectClass}>
-              <option>Tout</option>
+              <option onClick={() => setDisplayDocs("all")}>Tout</option>
               <option onClick={() => setDisplayDocs("moi")}>
                 Cree Par Moi
               </option>

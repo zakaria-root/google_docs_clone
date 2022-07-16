@@ -52,6 +52,7 @@ function NavDoc({ userImage, docName, docId, owner }) {
                   setInput('')
                   console.log('document is deleted');
                   setshowModalPartage(false)
+                  route.replace('/');
                 })
                 .catch((error) => { console.log("Error deleting document: ", error) })
 
