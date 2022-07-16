@@ -6,6 +6,7 @@ import { db } from '../../firebase';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import dynamic from 'next/dynamic';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+// import { setInterval } from 'timers/promises';
 
 const Editor = dynamic(() => import("react-draft-wysiwyg").then(module => module.Editor), {
   ssr: false,
@@ -59,8 +60,8 @@ function Doc() {
         })
     }
 
-    return () => getDoc()
-  }, [])
+    return getDoc()
+  }, [!editorState])
 
   function getDoc() {
     let state = null
@@ -81,6 +82,11 @@ function Doc() {
 
       })
   }
+
+  // setInterval(() => {
+  //    getDoc()
+  // }, 1000);
+
   if (!(document.readyState === "complete")) {
 
     window.addEventListener("load", getDoc());
